@@ -1,30 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <title>HTMX + DaisyUI</title>
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { plugins: [tailwind.plugin(function({ addBase, theme }) {})] }
+    tailwind.config = { plugins: [tailwind.plugin(function ({ addBase, theme }) { })] }
   </script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body class="p-4">
   <h1 class="text-2xl font-bold mb-4">HTMX + DaisyUI + B4J</h1>
-
-  <div class="collapse bg-base-200">
+  <div class="collapse bg-base-100 border-base-300 border">
     <input type="checkbox" />
-    <div class="collapse-title text-xl font-medium">
-      Click to Load Server Content
-    </div>
-    <div class="collapse-content"
-         hx-get="/collapse-content"
-         hx-trigger="revealed"
-         hx-swap="innerHTML">
+    <div class="collapse-title font-semibold">Click to Load Server Content</div>
+    <div class="collapse-content text-sm" hx-get="/collapse-content" hx-trigger="revealed" hx-swap="innerHTML">
       <p class="text-sm text-gray-400">Loading on first open...</p>
     </div>
   </div>
 
+  <!-- Tailwind + DaisyUI Styles Required -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Wrap with Alpine.js -->
+<div x-data="{ open: false }" class="mb-2">
+  <!-- Toggle Button -->
+  <button @click="open = !open"
+          class="flex items-center justify-between w-full bg-green-100 hover:bg-green-200 text-left px-4 py-2 rounded shadow border border-green-300">
+    
+    <!-- Left Content -->
+    <div class="flex items-center">
+      <span class="badge bg-green-500 text-white py-1 w-[60px] text-center">GET</span>
+      <span class="ml-2 font-medium">Read one Category by id</span>
+    </div>
+
+    <!-- Plus Icon -->
+    <svg class="w-5 h-5 transform transition-transform duration-200"
+         :class="{ 'rotate-45': open }"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+    </svg>
+  </button>
+
+    <!-- Collapsible Content -->
+    <div x-show="open" x-collapse class="mt-2 bg-base-200 rounded shadow p-4 space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Parameters -->
+        <div>
+          <p class="font-bold">Parameters</p>
+          <label class="block border rounded p-2 text-sm whitespace-pre-wrap">id [Int]</label>
+
+          <div class="mt-4 text-sm">
+            <strong>Status Codes</strong><br />
+            200 Success<br />
+            400 Bad Request<br />
+            404 Not found<br />
+            405 Method not allowed<br />
+            422 Error execute query
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div>
+          <form hx-get="/api/categories/1" hx-target="#responseGetCategoryById" hx-swap="outerHTML">
+            <p class="font-bold">Path</p>
+            <input id="pathGetCategoryById" class="input input-bordered w-full bg-neutral text-neutral-content text-sm"
+              value="http://127.0.0.1:8080/api/categories/{id}" />
+
+            <button id="btnGetCategoryById" type="submit" class="btn btn-success text-white mt-4 w-full">
+              <strong>Submit</strong>
+            </button>
+          </form>
+        </div>
+
+        <!-- Response -->
+        <div>
+          <p class="font-bold">Response</p>
+          <textarea rows="10" id="responseGetCategoryById"
+            class="textarea w-full bg-neutral text-white text-sm"></textarea>
+          <div id="alertGetCategoryById" class="alert bg-info text-white mt-2" role="alert">
+            This is an alert area.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alpine.js for Collapse -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+
 </body>
+
 </html>
