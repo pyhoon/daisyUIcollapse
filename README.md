@@ -1,1 +1,1 @@
-# DaisyUI Collapse Button + HTMX + B4J
+# DaisyUI Collapse Button + HTMX + AlpineJS + B4J
