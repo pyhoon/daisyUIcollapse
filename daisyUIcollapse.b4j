@@ -5,24 +5,22 @@ FileGroup1=Default Group
 Group=App
 Library1=jcore
 Library2=webapiutils
-Library3=minihtml
-Module1=HttpsFilter
-Module2=IndexWebHandler
+Module1=CollapseHandler
+Module2=HttpsFilter
+Module3=IndexWebHandler
 NumberOfFiles=1
-NumberOfLibraries=3
-NumberOfModules=2
+NumberOfLibraries=2
+NumberOfModules=3
 Version=10.2
 @EndOfDesignText@
 #Region Project Attributes
-' Product: 				EndsMeet
+' Product: 				Example generated using EndsMeet project template
 ' Version: 				0.80
 ' License:				MIT License
 ' Developer:			Poon Yip Hoon (Aeric) (https://www.b4x.com/android/forum/members/aeric.74499/)
 ' Donation:				PayPal (https://paypal.me/aeric80/)
 ' GitHub:				https://github.com/pyhoon/inti-b4j
 ' AppStart: 			ide://goto?Module=Main&Sub=AppStart
-' Configurable: 		ide://goto?Module=Main&Sub=Configurable
-' Objects folder: 		ide://run?file=%WINDIR%\SysWOW64\explorer.exe&Args=%PROJECT%\Objects
 #CommandLineArgs:
 #MergeLibraries: True
 #End Region
@@ -41,7 +39,7 @@ End Sub
 Sub AppStart (Args() As String)
 	InitServer
 	srvr.AddHandler("", "IndexWebHandler", False)
-	srvr.AddHandler("/modal", "IndexWebHandler", False)
+	srvr.AddHandler("/collapse-content", "CollapseHandler", False)
 	srvr.Start
 	Log($"EndsMeet server (version = ${conf.Version}) is running on port ${srvr.Port}${IIf(srvr.SslPort > 0, $" (redirected to port ${srvr.SslPort})"$, "")}"$)
 	StartMessageLoop
